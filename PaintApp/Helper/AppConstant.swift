@@ -1,9 +1,9 @@
 //
 //  AppConstant.swift
-//  Flype
+//  PaintApp
 //
-//  Created by Content-LogTera on 10/20/16.
-//  Copyright © 2016 Digital. All rights reserved.
+//  Created by Narendra Satpute on 28/08/18.
+//  Copyright © 2018 Digi. All rights reserved.
 //
 
 import UIKit

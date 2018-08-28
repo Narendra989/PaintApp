@@ -1,7 +1,7 @@
 //
 //  MenuViewController.swift
 //  PaintApp
-//
+//   Show Slider Menu View
 //  Created by Narendra Satpute on 28/08/18.
 //  Copyright © 2018 Digi. All rights reserved.
 //
@@ -24,6 +24,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var delegate: SelectedColorProtocol?
     
+    //MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -34,7 +35,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         menuTableView.estimatedRowHeight = AppConstant.MENU_CELL_HEIGHT
         menuTableView.delegate = self
         menuTableView.dataSource = self
-        menuTableView.register(UINib.init(nibName: "MenuCell", bundle: nil), forCellReuseIdentifier: "MenuCell")
+        menuTableView.register(UINib.init(nibName: AppConstant.MENU_CELL, bundle: nil), forCellReuseIdentifier: AppConstant.MENU_CELL)
         menuTableView.tableFooterView = UIView(frame: CGRect.zero)
     }
 
@@ -46,7 +47,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         menuViewModel.getListOfColors()
         menuTableView.reloadData()
     }
-    
+    //MARK: UITableView Delegate and data source method
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuViewModel.colorList.count
     }

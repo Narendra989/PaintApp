@@ -11,3 +11,9 @@ This is a basic ‘Paint’ type app, which has following capabilities -
 For now this app has following limitations - 
 
 1. For now user can work on single image at a time as the app uses local storage to store data, need to change that to Sqlite to support working on and saving multiple drawings
+
+# TODO
+1. Need to add test cases.
+
+
+

@@ -1,5 +1,5 @@
 //
-//  AppStorage.swift
+//  SharedAppStorage.swift
 //  PaintApp
 //
 //  Created by Narendra Satpute on 28/08/18.
@@ -9,9 +9,9 @@
 import Foundation
 import UIKit
 
-class AppStorage {
+class SharedAppStorage {
     //Mark: - Constants
-    static let shared = AppStorage()
+    static let shared = SharedAppStorage()
     let userDefaults = UserDefaults.standard
     
     var selectedImage: UIImage?

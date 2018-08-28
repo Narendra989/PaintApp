@@ -86,18 +86,19 @@ class PaintViewModel: NSObject {
         self.mainImage.image = UIGraphicsGetImageFromCurrentImageContext()
         self.tempDrawImage.image = nil
         UIGraphicsEndImageContext()
-        AppStorage.shared.selectedImage = self.mainImage.image
+        SharedAppStorage.shared.selectedImage = self.mainImage.image
     }
     
+     // Change Line Color
     func changeLineColor(color: UIColor) {
        selectedColor = color
     }
-    
+    // Clear Drawing
     func clearDrawing() {
         self.tempDrawImage.image = nil
         self.mainImage.image = nil
     }
-    
+    // Change Brush size
     func changeBrushSize(size: CGFloat) {
         brush = size
     }

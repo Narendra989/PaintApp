@@ -12,7 +12,7 @@
 		D91869D3213528480089F20C /* MenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D91869D1213528480089F20C /* MenuCell.xib */; };
 		D91869D6213532F80089F20C /* PaintColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91869D5213532F80089F20C /* PaintColor.swift */; };
 		D91869D8213533E60089F20C /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91869D7213533E60089F20C /* MenuViewModel.swift */; };
-		D91869DC2135403C0089F20C /* AppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91869DB2135403C0089F20C /* AppStorage.swift */; };
+		D91869DC2135403C0089F20C /* SharedAppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91869DB2135403C0089F20C /* SharedAppStorage.swift */; };
 		D92D7F692135703800210420 /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92D7F682135703800210420 /* AppConstant.swift */; };
 		D98AD132213517D10039A106 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98AD131213517D10039A106 /* AppDelegate.swift */; };
 		D98AD137213517D10039A106 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D98AD135213517D10039A106 /* Main.storyboard */; };
@@ -39,7 +39,7 @@
 		D91869D1213528480089F20C /* MenuCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuCell.xib; sourceTree = "<group>"; };
 		D91869D5213532F80089F20C /* PaintColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintColor.swift; sourceTree = "<group>"; };
 		D91869D7213533E60089F20C /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
-		D91869DB2135403C0089F20C /* AppStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorage.swift; sourceTree = "<group>"; };
+		D91869DB2135403C0089F20C /* SharedAppStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedAppStorage.swift; sourceTree = "<group>"; };
 		D92D7F682135703800210420 /* AppConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstant.swift; sourceTree = "<group>"; };
 		D98AD12E213517D10039A106 /* PaintApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaintApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98AD131213517D10039A106 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,7 +95,7 @@
 			children = (
 				D92D7F682135703800210420 /* AppConstant.swift */,
 				D91869D5213532F80089F20C /* PaintColor.swift */,
-				D91869DB2135403C0089F20C /* AppStorage.swift */,
+				D91869DB2135403C0089F20C /* SharedAppStorage.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -285,7 +285,7 @@
 			files = (
 				D92D7F692135703800210420 /* AppConstant.swift in Sources */,
 				D98AD15721351E870039A106 /* PaintViewModel.swift in Sources */,
-				D91869DC2135403C0089F20C /* AppStorage.swift in Sources */,
+				D91869DC2135403C0089F20C /* SharedAppStorage.swift in Sources */,
 				D91869D8213533E60089F20C /* MenuViewModel.swift in Sources */,
 				D91869D2213528480089F20C /* MenuCell.swift in Sources */,
 				D91869D6213532F80089F20C /* PaintColor.swift in Sources */,

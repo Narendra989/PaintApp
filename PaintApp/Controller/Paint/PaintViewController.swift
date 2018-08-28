@@ -1,7 +1,7 @@
 //
 //  PaintViewController.swift
 //  PaintApp
-//
+//  Used to draw pattern 
 //  Created by Narendra Satpute on 28/08/18.
 //  Copyright © 2018 Digi. All rights reserved.
 //
@@ -23,9 +23,10 @@ class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationMa
     let paintViewModel = PaintViewModel()
     var locationManager:CLLocationManager!
     
+    //MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLocationManager()
+        
         paintViewModel.loadView(view: self.view)
         menuLeadingConstraints.constant = 0
         menuBtnLeadingConstraints.constant = 50
@@ -36,10 +37,10 @@ class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationMa
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if let image = AppStorage.shared.getStoredImage() {
-            AppStorage.shared.selectedImage = image
+        if let image = SharedAppStorage.shared.getStoredImage() {
+            SharedAppStorage.shared.selectedImage = image
             paintViewModel.showImageOnCanvas(image: image)
-            AppStorage.shared.clearStoredData()
+            SharedAppStorage.shared.clearStoredData()
         }
     }
     
@@ -56,7 +57,7 @@ class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationMa
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         paintViewModel.touchBegin(touches, view: self.view)
     }
@@ -68,7 +69,7 @@ class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationMa
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         paintViewModel.touchEnded(touches, view: self.view)
     }
-   
+   // Open Side Menu
     @IBAction func openMenu(_ sender: Any) {
         if !isMenuOpen {
             menuLeadingConstraints.constant = 0
@@ -104,7 +105,7 @@ class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationMa
             menuController?.delegate = self
         }
     }
-    
+     // Close Side Menu
     func closeMenu() {
         menuLeadingConstraints.constant = AppConstant.MENU_CELL_WIDTH
         menuBtnLeadingConstraints.constant = 0
@@ -114,8 +115,8 @@ class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationMa
     
     @IBAction func clearBtnAction(_ sender: Any) {
         paintViewModel.clearDrawing()
-        if AppStorage.shared.selectedImage != nil {
-            AppStorage.shared.selectedImage  = nil
+        if SharedAppStorage.shared.selectedImage != nil {
+            SharedAppStorage.shared.selectedImage  = nil
         }
     }
     
