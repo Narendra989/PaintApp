@@ -56,10 +56,12 @@ class PaintViewController: UIViewController, SelectedColorProtocol,CLLocationMan
     var menuController: MenuViewController?
     
     //MARK: Constants
+    
     let paintViewModel = PaintViewModel()
     let manager = CMMotionManager()
     
     //MARK: View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //setupDeviceMotion()
@@ -140,7 +142,8 @@ class PaintViewController: UIViewController, SelectedColorProtocol,CLLocationMan
             menuController?.delegate = self
         }
     }
-     // Close Side Menu
+    
+    // Close Side Menu
     func closeMenu() {
         menuLeadingConstraints.constant = AppConstant.MENU_CELL_WIDTH
         menuBtnLeadingConstraints.constant = 0

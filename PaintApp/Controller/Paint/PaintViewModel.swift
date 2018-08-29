@@ -23,6 +23,7 @@ class PaintViewModel: NSObject {
     var isImageRotating = false
     
     //MARK: Constant
+    
     let screenSize = UIScreen.main.bounds.size
     
     func loadView(view: UIView){
@@ -97,15 +98,17 @@ class PaintViewModel: NSObject {
         SharedAppStorage.shared.selectedImage = self.mainImage.image
     }
     
-     // Change Line Color
+    // Change Line Color
     func changeLineColor(color: UIColor) {
        selectedColor = color
     }
+    
     // Clear Drawing
     func clearDrawing() {
         self.tempDrawImage.image = nil
         self.mainImage.image = nil
     }
+    
     // Change Brush size
     func changeBrushSize(size: CGFloat) {
         brush = size
@@ -113,8 +116,7 @@ class PaintViewModel: NSObject {
     
     func showImageOnCanvas(image: UIImage) {
         self.mainImage.image = image
-    }
-    
+    }    
     
     //Used to rotate image on north direction
     func startDeviceRotation(rotateImage: UIImageView, actionBtn: UIBarButtonItem,locationManager: CLLocationManager) {

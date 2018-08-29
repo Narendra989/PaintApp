@@ -16,15 +16,18 @@ protocol SelectedColorProtocol {
 
 class MenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     //MARK: Properties
+    
     @IBOutlet weak var menuTableView: UITableView!
     @IBOutlet weak var eraserBtn: UIButton!
     
     //MARK: Constants
+    
     let menuViewModel = MenuViewModel()
     
     var delegate: SelectedColorProtocol?
     
     //MARK: View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -47,7 +50,9 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         menuViewModel.getListOfColors()
         menuTableView.reloadData()
     }
+    
     //MARK: UITableView Delegate and data source method
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuViewModel.colorList.count
     }

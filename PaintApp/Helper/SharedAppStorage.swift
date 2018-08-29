@@ -11,6 +11,7 @@ import UIKit
 
 class SharedAppStorage {
     //Mark: - Constants
+    
     static let shared = SharedAppStorage()
     let userDefaults = UserDefaults.standard
     

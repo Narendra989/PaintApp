@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 struct AppConstant {
     static let MENU_CELL: String="MenuCell"
     static let STORE_IMAGE: String="drawImage"
@@ -16,6 +15,5 @@ struct AppConstant {
     static let MENU_CELL_WIDTH: CGFloat = -50
     static let START_TITLE: String="Start"
     static let STOP_TITLE: String="Stop"
-    
 }
 
