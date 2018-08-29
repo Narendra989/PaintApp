@@ -34,7 +34,4 @@ class PaintColor{
     }
 }
 
-extension CGFloat {
-    var toRadians: CGFloat { return self * .pi / 180 }
-    var toDegrees: CGFloat { return self * 180 / .pi }
-}
+

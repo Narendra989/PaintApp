@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreLocation
 class PaintViewModel: NSObject {
     var tempDrawImage: UIImageView!
     var mainImage: UIImageView!
@@ -19,6 +19,8 @@ class PaintViewModel: NSObject {
     var opacity: CGFloat!
     var mouseSwiped: Bool!
     var selectedColor: UIColor!
+    
+    var isImageRotating = false
     
     //MARK: Constant
     let screenSize = UIScreen.main.bounds.size
@@ -34,49 +36,55 @@ class PaintViewModel: NSObject {
     }
     
     func touchBegin(_ touches: Set<UITouch>, view: UIView) {
-        mouseSwiped = false
-        print("Touch Began")
-        let touch = touches.first! as UITouch
-        lastPoint = touch.location(in: view)
+        if !isImageRotating {
+            mouseSwiped = false
+            print("Touch Began")
+            let touch = touches.first! as UITouch
+            lastPoint = touch.location(in: view)
+        }
     }
     
     func touchMoved(_ touches: Set<UITouch>, view: UIView) {
-        mouseSwiped = true
-        let touch = touches.first! as UITouch
-        let currentPoint = touch.location(in: view)
-        UIGraphicsBeginImageContext(view.frame.size)
-        self.tempDrawImage.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
-        let context = UIGraphicsGetCurrentContext()
-        context?.move(to: CGPoint(x: lastPoint.x, y: lastPoint.y))
-        context?.addLine(to: CGPoint(x: currentPoint.x, y: currentPoint.y))
-        context?.setLineCap(CGLineCap.round)
-        context?.setLineWidth(brush)
-        context?.setStrokeColor(selectedColor.cgColor)
-        context?.setBlendMode(CGBlendMode.normal)
-        context?.strokePath()
-        self.tempDrawImage.image = UIGraphicsGetImageFromCurrentImageContext()
-        self.tempDrawImage.alpha = opacity
-        UIGraphicsEndImageContext()
-        lastPoint = currentPoint
-    }
-    
-     func touchEnded(_ touches: Set<UITouch>, view: UIView) {
-        print("Touch Ended")
-        if(!mouseSwiped){
+        if !isImageRotating {
+            mouseSwiped = true
+            let touch = touches.first! as UITouch
+            let currentPoint = touch.location(in: view)
             UIGraphicsBeginImageContext(view.frame.size)
             self.tempDrawImage.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
             let context = UIGraphicsGetCurrentContext()
+            context?.move(to: CGPoint(x: lastPoint.x, y: lastPoint.y))
+            context?.addLine(to: CGPoint(x: currentPoint.x, y: currentPoint.y))
             context?.setLineCap(CGLineCap.round)
             context?.setLineWidth(brush)
             context?.setStrokeColor(selectedColor.cgColor)
-            context?.move(to: CGPoint(x: lastPoint.x, y: lastPoint.y))
-            context?.addLine(to: CGPoint(x: lastPoint.x, y: lastPoint.y))
+            context?.setBlendMode(CGBlendMode.normal)
             context?.strokePath()
-            context?.flush()
             self.tempDrawImage.image = UIGraphicsGetImageFromCurrentImageContext()
+            self.tempDrawImage.alpha = opacity
             UIGraphicsEndImageContext()
+            lastPoint = currentPoint
         }
-        renderImage(view: view)
+    }
+    
+     func touchEnded(_ touches: Set<UITouch>, view: UIView) {
+        if !isImageRotating {
+            print("Touch Ended")
+            if(!mouseSwiped){
+                UIGraphicsBeginImageContext(view.frame.size)
+                self.tempDrawImage.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
+                let context = UIGraphicsGetCurrentContext()
+                context?.setLineCap(CGLineCap.round)
+                context?.setLineWidth(brush)
+                context?.setStrokeColor(selectedColor.cgColor)
+                context?.move(to: CGPoint(x: lastPoint.x, y: lastPoint.y))
+                context?.addLine(to: CGPoint(x: lastPoint.x, y: lastPoint.y))
+                context?.strokePath()
+                context?.flush()
+                self.tempDrawImage.image = UIGraphicsGetImageFromCurrentImageContext()
+                UIGraphicsEndImageContext()
+            }
+            renderImage(view: view)
+        }
     }
     
     func renderImage(view: UIView) {
@@ -106,4 +114,27 @@ class PaintViewModel: NSObject {
     func showImageOnCanvas(image: UIImage) {
         self.mainImage.image = image
     }
+    
+    
+    //Used to rotate image on north direction
+    func startDeviceRotation(rotateImage: UIImageView, actionBtn: UIBarButtonItem,locationManager: CLLocationManager) {
+        rotateImage.isHidden = false
+        self.mainImage.isHidden = true
+        self.isImageRotating = true
+        rotateImage.image = self.mainImage.image
+        locationManager.startUpdatingLocation()
+        locationManager.startUpdatingHeading()
+        actionBtn.title = AppConstant.STOP_TITLE
+    }
+    
+    //Used to stop rotation of draw image
+    func stopDeviceRotation(rotateImage: UIImageView, actionBtn: UIBarButtonItem,locationManager: CLLocationManager) {
+        rotateImage.isHidden = true
+        self.mainImage.isHidden = false
+        self.isImageRotating = false
+        locationManager.stopUpdatingHeading()
+        locationManager.stopUpdatingLocation()
+        actionBtn.title = AppConstant.START_TITLE
+    }
+    
 }

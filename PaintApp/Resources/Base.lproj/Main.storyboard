@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -40,18 +39,32 @@
                                     <action selector="openMenu:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Idj-kh-Za1"/>
                                 </connections>
                             </button>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xUh-gY-bcX">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="ewD-w0-wO7" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="0ym-4n-h9E"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="GZa-Yk-Dp1" secondAttribute="bottom" id="49x-RA-x1U"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xUh-gY-bcX" secondAttribute="bottom" id="BYF-2h-DlR"/>
                             <constraint firstItem="GZa-Yk-Dp1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="LL8-fo-gH7"/>
                             <constraint firstItem="GZa-Yk-Dp1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="LXD-XO-wko"/>
+                            <constraint firstItem="xUh-gY-bcX" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="a1s-8L-I74"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xUh-gY-bcX" secondAttribute="trailing" id="bKG-v1-zy1"/>
+                            <constraint firstItem="xUh-gY-bcX" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="gdf-hl-LZx"/>
                             <constraint firstItem="ewD-w0-wO7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="sfV-zZ-UOF"/>
+                            <constraint firstItem="xUh-gY-bcX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wBv-E0-6jN"/>
+                            <constraint firstItem="xUh-gY-bcX" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="xSb-53-CSe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Paint App" id="lvF-Bi-x8h">
+                        <barButtonItem key="leftBarButtonItem" title="Start" id="lwE-4g-94Q">
+                            <connections>
+                                <action selector="startDeviceMotion:" destination="BYZ-38-t0r" id="DT8-Ec-8UZ"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Clear" id="gf8-kt-Vz9">
                             <connections>
                                 <action selector="clearBtnAction:" destination="BYZ-38-t0r" id="BZ9-nh-Zgp"/>
@@ -63,6 +76,8 @@
                         <outlet property="menuBtnLeadingConstraints" destination="sfV-zZ-UOF" id="WaB-17-wNY"/>
                         <outlet property="menuContainerView" destination="GZa-Yk-Dp1" id="l8b-Vz-scO"/>
                         <outlet property="menuLeadingConstraints" destination="LL8-fo-gH7" id="nME-Cy-SNc"/>
+                        <outlet property="rotateImage" destination="xUh-gY-bcX" id="DmA-kW-Ht8"/>
+                        <outlet property="startBtn" destination="lwE-4g-94Q" id="nby-W8-rar"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -8,25 +8,62 @@
 
 import UIKit
 import CoreLocation
+import CoreMotion
 
-class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationManagerDelegate {
+class PaintViewController: UIViewController, SelectedColorProtocol,CLLocationManagerDelegate {
     //MARK: Properties
+    
+    @IBOutlet weak var rotateImage: UIImageView!
+    
+    @IBOutlet weak var startBtn: UIBarButtonItem!
     @IBOutlet weak var menuBtn: UIButton!
     @IBOutlet weak var menuContainerView: UIView!
     @IBOutlet weak var menuBtnLeadingConstraints: NSLayoutConstraint!
     @IBOutlet weak var menuLeadingConstraints: NSLayoutConstraint!
+    
+    
+    var latestLocation: CLLocation? = nil
+    var yourLocation = CLLocation(latitude: 90, longitude: 0)
+    var yourLocationBearing: CGFloat { return latestLocation?.bearingToLocationRadian(self.yourLocation) ?? 0 }
+    
+    let locationManager: CLLocationManager = {
+        $0.requestWhenInUseAuthorization()
+        $0.desiredAccuracy = kCLLocationAccuracyBest
+        
+        return $0
+    }(CLLocationManager())
+    
+    private func orientationAdjustment() -> CGFloat {
+        let isFaceDown: Bool = {
+            switch UIDevice.current.orientation {
+            case .faceDown: return true
+            default: return false
+            }
+        }()
+        
+        let adjAngle: CGFloat = {
+            switch UIApplication.shared.statusBarOrientation {
+            case .landscapeLeft:  return 90
+            case .landscapeRight: return -90
+            case .portrait, .unknown: return 0
+            case .portraitUpsideDown: return isFaceDown ? 180 : -180
+            }
+        }()
+        return adjAngle
+    }
     
     var isMenuOpen = true
     var menuController: MenuViewController?
     
     //MARK: Constants
     let paintViewModel = PaintViewModel()
-    var locationManager:CLLocationManager!
+    let manager = CMMotionManager()
     
     //MARK: View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        //setupDeviceMotion()
+        locationManager.delegate = self
         paintViewModel.loadView(view: self.view)
         menuLeadingConstraints.constant = 0
         menuBtnLeadingConstraints.constant = 50
@@ -44,15 +81,10 @@ class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationMa
         }
     }
     
-    func setupLocationManager() {
-        
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-        locationManager.startUpdatingHeading()
+    override func viewWillDisappear(_ animated: Bool) {
+        manager.stopAccelerometerUpdates()
     }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -60,6 +92,7 @@ class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationMa
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         paintViewModel.touchBegin(touches, view: self.view)
+        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -68,7 +101,9 @@ class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationMa
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         paintViewModel.touchEnded(touches, view: self.view)
+        
     }
+   
    // Open Side Menu
     @IBAction func openMenu(_ sender: Any) {
         if !isMenuOpen {
@@ -114,18 +149,51 @@ class PaintViewController: UIViewController, SelectedColorProtocol, CLLocationMa
     }
     
     @IBAction func clearBtnAction(_ sender: Any) {
+        
         paintViewModel.clearDrawing()
         if SharedAppStorage.shared.selectedImage != nil {
             SharedAppStorage.shared.selectedImage  = nil
         }
-    }
-    
-    //MARK: - Location Manager Delegate method
-    
-    private func locationManager(manager: CLLocationManager!, didUpdateHeading heading: CLHeading!) {
-        // This will print out the direction the device is heading
-        print(heading.magneticHeading)
         
     }
+    
+    @IBAction func startDeviceMotion(_ sender: Any) {
+        if startBtn.title! == AppConstant.START_TITLE {
+           paintViewModel.startDeviceRotation(rotateImage: rotateImage, actionBtn: startBtn, locationManager: locationManager)
+        }
+        else{
+            paintViewModel.stopDeviceRotation(rotateImage: rotateImage, actionBtn: startBtn, locationManager: locationManager)
+        }
+        
+    }
+    
+    func computeNewAngle(with newAngle: CGFloat) -> CGFloat {
+        let heading: CGFloat = {
+            let originalHeading = self.yourLocationBearing - newAngle.degreesToRadians
+            switch UIDevice.current.orientation {
+            case .faceDown: return -originalHeading
+            default: return originalHeading
+            }
+        }()
+        
+        return CGFloat(self.orientationAdjustment().degreesToRadians + heading)
+    }
+    
+    //MARK:- Location Manager Delegate Method
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+       
+        UIView.animate(withDuration: 0.5) {
+            let angle = CGFloat(newHeading.trueHeading) // convert from degrees to radians
+            let angle1 = self.computeNewAngle(with: angle)
+            self.rotateImage.transform = CGAffineTransform(rotationAngle: angle1)
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        latestLocation = locations.last
+    }
+    
 }
 
